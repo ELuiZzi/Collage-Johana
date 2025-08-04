@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collage de frases</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto+Slab:wght@300;600&family=Pacifico&family=Playfair+Display:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Raleway', sans-serif;
+      overflow: hidden;
+    }
+    body {
+      background: linear-gradient(-45deg, #3e2c26, #7e685a, #5c7c76, #c1b49a);
+      background-size: 600% 600%;
+      animation: gradient 30s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    #collage {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-wrap: wrap;
+      padding: 40px;
+    }
+    .frase {
+      position: absolute;
+      color: #fff;
+      font-size: 1.2rem;
+      padding: 5px 10px;
+      border-radius: 5px;
+      opacity: 0.9;
+      user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="collage"></div>
+  <script>
+    const frases = [
+      "ME ENCANTÓ", "AY POBRECITO", "LO DI TODO", "INTERESTELAR", "PUES CADA QUIEN",
+      "¿QUEEEE?", "DESCANSA :)", "MIRAA", "OPINIÓN SINCERA EN IG", "HOLAP, OYEP, SIP",
+      "JAJAJAJAJA", "4.5/5", "COMIDITA, TRANQUILITO, GORDITOOO", "BOBOOOO",
+      "¿VERDAD O BROMA?", "AYYYYY", "SE EMOCIONA*", "CASI LLORO", "A VER, A VER",
+      "AY CALLATEEEEE", "DEBES DE TENER UNA MENTALIDAD ABIERTA"
+    ];
+
+    const fuentes = [
+      "'Raleway', sans-serif",
+      "'Roboto Slab', serif",
+      "'Pacifico', cursive",
+      "'Playfair Display', serif"
+    ];
+
+    const container = document.getElementById('collage');
+
+    const password = prompt("Introduce la contraseña:");
+    if (password === "jho") {
+      container.style.display = "flex";
+
+      frases.forEach(frase => {
+        const div = document.createElement("div");
+        div.className = "frase";
+        div.textContent = frase;
+        div.style.fontFamily = fuentes[Math.floor(Math.random() * fuentes.length)];
+        div.style.top = `${Math.random() * 90}%`;
+        div.style.left = `${Math.random() * 90}%`;
+        div.style.transform = `rotate(${(Math.random() - 0.5) * 30}deg)`;
+        div.style.fontSize = `${Math.random() * 1 + 1}rem`;
+        container.appendChild(div);
+      });
+    } else {
+      document.body.innerHTML = '<p style="color: white; font-size: 1.5rem; font-family: Raleway, sans-serif">Contraseña incorrecta</p>';
+    }
+  </script>
+</body>
+</html>
