@@ -78,7 +78,7 @@
     }
 
     button.loading::after {
-      animation: fillBar 8s linear forwards;
+      animation: fillBar 11s linear forwards;
     }
 
     @keyframes fillBar {
@@ -142,6 +142,26 @@
   animation: fadeInUp 0.6s ease forwards;
 }
 
+#logoutBtn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 999;
+  transition: background-color 0.3s ease;
+}
+
+#logoutBtn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+
 
   </style>
 
@@ -152,9 +172,13 @@
 
 
 <body>
+
+
 <div id="app">
   <h1 id="title">Johana es:</h1>
   <div id="quoteContainer"></div>
+<button id="logoutBtn" onclick="cerrarSesion()">Cerrar sesión</button>
+
   <button id="quoteBtn" onclick="nextQuote()">Más??</button>
 </div>
   <div id="passwordPrompt">
@@ -167,21 +191,24 @@
 
   <div id="app">
     <div id="quote"></div>
+<button id="logoutBtn" onclick="cerrarSesion()">Cerrar sesión</button>
+
     <button id="quoteBtn" onclick="nextQuote()">Más??</button>
   </div>
 
   <script>
     const frasesOriginales = [
       "ME ENCANTÓ", "AY POBRECITO", "LO DI TODO", "INTERESTELAR",
-      "PUES CADA QUIEN", "¿QUEEEE?", "DESCANSA :)", "MIRAA",
-      "OPINIÓN SINCERA EN IG", "HOLAP", "OYEP", "SIP", "JAJAJAJAJA",
+      "PUES CADA QUIEN", "¿QUEEEE?", "DESCANSA :)", "MIRAAA",
+      "OPINIÓN SINCERA EN IG", "JAJAJAJAJA", "HOLAP", "OYEP", "SIP",
       "4.5/5", "COMIDITA, TRANQUILITO, GORDITOOO", "BOBOOOO",
       "¿VERDAD O BROMA?", "AYYYYY", "SE EMOCIONA*", "CASI LLORO",
       "A VER, A VER", "AY CALLATEEEEE", "DEBES DE TENER UNA MENTALIDAD ABIERTA",
-      "RISA BONITA", "1.52", "FRESAS CON CREMA", "ESTATURA PERFECTA",
-      "SUIZA", "COLOR CAFÉ", "ROKO", "ACENTO FRESA", "CHINGU", "CAMINAR MODELANDO",
+      "RISA BONITA", "1.52 M", "FRESAS CON CREMA", "ESTATURA PERFECTA",
+      "SUIZA", "AMA EL COLOR CAFÉ", "ROKO", "ACENTO FRESA", "CHINGU", "CAMINAR MODELANDO",
       "UN POCO RARITA (DIFERENTE)", "ALÉRGICA AL CAMARÓN", "NO LE GUSTA ENTRENAR PIERNA",
-      "ESPALDITA Y BICEP <3"
+      "ESPALDITA Y BICEPS <3", "MIL COSAS QUE CONTAR", "JUEGA FUTBOL", "MUUYY EXPRESIVA",
+      "LENTES"
     ];
 
     const fuentes = [
@@ -261,7 +288,7 @@ reproducirMusicaAleatoria();
   setTimeout(() => {
     boton.disabled = false;
     boton.classList.remove("loading");
-  }, 8000);
+  }, 11000);
 }
 
 
@@ -288,8 +315,18 @@ function reproducirMusicaAleatoria() {
 }
 
 
+function cerrarSesion() {
+  const seguir = confirm("¿Te gustaría seguir compartiendo esto conmigo...?");
+  if (seguir) {
+    app.style.display = "none";
+    passwordPrompt.style.display = "flex";
+    document.getElementById("passwordInput").value = "";
+    player.pause();
+    player.currentTime = 0;
+  }
+}
+
+
   </script>
 </body>
 </html>
-
-
