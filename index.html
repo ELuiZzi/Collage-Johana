@@ -3,95 +3,289 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Collage Johana</title>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Roboto+Slab:wght@300;600&family=Pacifico&family=Playfair+Display:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
+  <title>Para Johana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Mono&family=Playfair+Display&family=Indie+Flower&family=Quicksand&family=Shadows+Into+Light&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
+    body {
       margin: 0;
       padding: 0;
-    }
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: 'Raleway', sans-serif;
-      overflow: hidden;
-    }
-    body {
-      background: linear-gradient(-45deg, #3e2c26, #7e685a, #5c7c76, #c1b49a);
-      background-size: 600% 600%;
-      animation: gradient 30s ease infinite;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      background: linear-gradient(-45deg, #3e2f2f, #d2b48c, #3e2f2f, #d2b48c);
+      background-size: 400% 400%;
+      animation: backgroundMove 20s ease infinite;
+      font-family: sans-serif;
+      color: white;
+      text-align: center;
     }
-    @keyframes gradient {
+
+    @keyframes backgroundMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    #collage {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+
+    #app {
       display: none;
-      flex-wrap: wrap;
-      padding: 40px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      width: 80%;
     }
-    .frase {
+
+    #quote {
+      font-size: 2.5rem;
+      padding: 2rem;
+      min-height: 100px;
+    }
+
+    button {
+      position: relative;
+      overflow: hidden;
+      padding: 0.8rem 1.5rem;
+      font-size: 1.1rem;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    button::after {
+      content: "";
       position: absolute;
-      color: #fff;
-      font-size: 1.2rem;
-      padding: 5px 10px;
-      border-radius: 5px;
-      opacity: 0.9;
-      user-select: none;
-      pointer-events: none;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: white;
+      width: 100%;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: none;
     }
+
+    button.loading::after {
+      animation: fillBar 8s linear forwards;
+    }
+
+    @keyframes fillBar {
+      0% { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
+    }
+
+#passwordPrompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #passwordInput {
+    padding: 0.8rem 1rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 192, 203, 0.2);
+    color: white;
+    outline: none;
+  }
+
+  #passwordInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+#title {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  font-family: 'Playfair Display', serif;
+}
+
+#quoteContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  min-height: 200px;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.frase {
+  font-size: 2rem;
+  padding: 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  max-width: 300px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+
   </style>
+
+
 </head>
+
+<audio id="player" autoplay loop></audio>
+
+
 <body>
-  <div id="collage"></div>
+<div id="app">
+  <h1 id="title">Johana es:</h1>
+  <div id="quoteContainer"></div>
+  <button id="quoteBtn" onclick="nextQuote()">Más??</button>
+</div>
+  <div id="passwordPrompt">
+    <div>
+      <h2>Ingresa la contraseña</h2>
+      <input type="password" id="passwordInput" />
+      <button onclick="checkPassword()">Entrar</button>
+    </div>
+  </div>
+
+  <div id="app">
+    <div id="quote"></div>
+    <button id="quoteBtn" onclick="nextQuote()">Más??</button>
+  </div>
+
   <script>
-    const frases = [
-      "ME ENCANTÓ", "AY POBRECITO", "LO DI TODO", "INTERESTELAR", "PUES CADA QUIEN",
-      "¿QUEEEE?", "DESCANSA :)", "MIRAA", "OPINIÓN SINCERA EN IG", "HOLAP", "OYEP", "SIP",
-      "JAJAJAJAJA", "4.5/5", "COMIDITA, TRANQUILITO, GORDITOOO", "BOBOOOO",
-      "¿VERDAD O BROMA?", "AYYYYY", "SE EMOCIONA*", "CASI LLORO", "A VER, A VER",
-      "AY CALLATEEEEE", "DEBES DE TENER UNA MENTALIDAD ABIERTA", "1.52", "Fresas con Crema", "Estatura perfecta",
-      "Suiza", "Color Café"
+    const frasesOriginales = [
+      "ME ENCANTÓ", "AY POBRECITO", "LO DI TODO", "INTERESTELAR",
+      "PUES CADA QUIEN", "¿QUEEEE?", "DESCANSA :)", "MIRAA",
+      "OPINIÓN SINCERA EN IG", "HOLAP, OYEP, SIP", "JAJAJAJAJA",
+      "4.5/5", "COMIDITA, TRANQUILITO, GORDITOOO", "BOBOOOO",
+      "¿VERDAD O BROMA?", "AYYYYY", "SE EMOCIONA*", "CASI LLORO",
+      "A VER, A VER", "AY CALLATEEEEE", "DEBES DE TENER UNA MENTALIDAD ABIERTA",
+"RISA BONITA", "1.52", "FRESAS CON CREMA", "ESTATURA PERFECTA",
+      "SUIZA", "COLOR CAFÉ"
     ];
 
     const fuentes = [
-      "'Raleway', sans-serif",
-      "'Roboto Slab', serif",
-      "'Pacifico', cursive",
-      "'Playfair Display', serif"
+      "Pacifico", "Roboto Mono", "Playfair Display",
+      "Indie Flower", "Quicksand", "Shadows Into Light"
     ];
 
-    const container = document.getElementById('collage');
+    let frasesDisponibles = [...frasesOriginales];
+    const quote = document.getElementById("quote");
+    const passwordPrompt = document.getElementById("passwordPrompt");
+    const app = document.getElementById("app");
+    const boton = document.getElementById("quoteBtn");
 
-    const password = prompt("Introduce la contraseña:");
-    if (password === "jho") {
-      container.style.display = "flex";
+    function checkPassword() {
+    const inputElement = document.getElementById("passwordInput");
+    const input = inputElement.value;
+    if (input === "jho") {
+      passwordPrompt.style.display = "none";
+      app.style.display = "flex";
+      nextQuote();
+reproducirMusicaAleatoria();
 
-      frases.forEach(frase => {
-        const div = document.createElement("div");
-        div.className = "frase";
-        div.textContent = frase;
-        div.style.fontFamily = fuentes[Math.floor(Math.random() * fuentes.length)];
-        div.style.top = `${Math.random() * 90}%`;
-        div.style.left = `${Math.random() * 90}%`;
-        div.style.transform = `rotate(${(Math.random() - 0.5) * 30}deg)`;
-        div.style.fontSize = `${Math.random() * 1 + 1}rem`;
-        container.appendChild(div);
-      });
     } else {
-      document.body.innerHTML = '<p style="color: white; font-size: 1.5rem; font-family: Raleway, sans-serif">Contraseña incorrecta</p>';
+      alert("Contraseña incorrecta");
+      inputElement.value = ""; // borrar campo
     }
+
+  }
+
+  // Habilita la tecla Enter para validar
+  document.getElementById("passwordInput").addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+      checkPassword();
+    }
+  });
+
+    function prepararFrases() {
+      frasesDisponibles = [...frasesOriginales];
+    }
+
+    function nextQuote() {
+  boton.disabled = true;
+  boton.classList.remove("loading");
+  void boton.offsetWidth;
+  boton.classList.add("loading");
+
+  // Prepara frases si ya se usaron todas
+  if (frasesDisponibles.length < 3) prepararFrases();
+
+  // Limpiar contenedor anterior
+  const quoteContainer = document.getElementById("quoteContainer");
+  quoteContainer.innerHTML = "";
+
+  // Generar 3 frases distintas
+  for (let i = 0; i < 3; i++) {
+  const index = Math.floor(Math.random() * frasesDisponibles.length);
+  const frase = frasesDisponibles.splice(index, 1)[0];
+  const fuente = fuentes[Math.floor(Math.random() * fuentes.length)];
+
+  const div = document.createElement("div");
+  div.className = "frase";
+  div.textContent = frase;
+  div.style.fontFamily = `'${fuente}', cursive`;
+
+  // Estilos aleatorios
+  const rotacion = Math.floor(Math.random() * 11 - 5); // -5 a +5 grados
+  const escala = 0.95 + Math.random() * 0.1;
+  div.style.transform = `rotate(${rotacion}deg) scale(${escala})`;
+
+  // Animación con delay progresivo
+  div.style.animationDelay = `${i * 0.23}s`;
+
+  quoteContainer.appendChild(div);
+}
+
+
+  setTimeout(() => {
+    boton.disabled = false;
+    boton.classList.remove("loading");
+  }, 8000);
+}
+
+
+// Archivos de música disponibles
+const canciones = [
+  "musica/cancion1.mp3",
+"musica/cancion2.mp3",
+"musica/cancion3.mp3",
+"musica/cancion4.mp3",
+"musica/cancion5.mp3",
+"musica/cancion6.mp3",
+  // agrega más rutas según tus archivos
+];
+
+const player = document.getElementById("player");
+player.volume = 0.8; // volumen al 80%
+
+function reproducirMusicaAleatoria() {
+  const index = Math.floor(Math.random() * canciones.length);
+  player.src = canciones[index];
+  player.play().catch(() => {
+    console.warn("La reproducción fue bloqueada por el navegador.");
+  });
+}
+
+
   </script>
 </body>
 </html>
-
-
-
